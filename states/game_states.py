@@ -11,6 +11,8 @@ from world.level_io import LevelIO
 from entities.entity_factory import entity_factory
 from systems.input_handler import InputHandler
 from ui.pause_menu import PauseMenu
+from ui.hud import HUD
+from auditory.mixer import Mixer
 import pygame
 
 class GameState(State):
@@ -45,6 +47,11 @@ class WorldState(State):
         self.map_width = self.tile_manager.cols * DEFAULT_TILE_SIZE
         self.map_height = self.tile_manager.rows * DEFAULT_TILE_SIZE
 
+        self.bgm_is_playing = False
+
+        self.hud = HUD(self.entity_manager)
+        self.ui_elements.append(self.hud)
+
     def player_input(self, inputs: InputHandler):
         super().player_input(inputs)
 
@@ -55,6 +62,13 @@ class WorldState(State):
     def tick(self, dt):
         super().tick(dt)
         self.camera.tick(self.map_width, self.map_height)
+
+    def audio(self, mixer: Mixer):
+        super().audio(mixer)
+
+        if not self.bgm_is_playing:
+            mixer.play_music("world")
+            self.bgm_is_playing = True
 
     def render(self, graphics: Renderer):
         super().render(graphics)

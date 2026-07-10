@@ -1,0 +1,24 @@
+{ "frames": {
+   "title.ase": {
+    "frame": { "x": 0, "y": 0, "w": 260, "h": 39 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 260, "h": 39 },
+    "sourceSize": { "w": 260, "h": 39 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://github.com/LibreSprite/LibreSprite/",
+  "version": "1.1-dev",
+  "image": "C:\\Users\\Patrick\\Desktop\\PYTHON PROJECTS\\pygameopenworld\\res\\spritesheets\\title\\title.png",
+  "format": "RGBA8888",
+  "size": { "w": 260, "h": 39 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "bg", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

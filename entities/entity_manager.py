@@ -2,7 +2,8 @@ from entities.hitbox import Hitbox, HitboxType
 from entities.spatial_grid import SpatialGrid
 from graphics.renderer import Renderer
 from graphics.camera import Camera
-
+from utils.vector2f import Vector2f
+import time
 
 class EntityManager:
     def __init__(self):
@@ -11,6 +12,29 @@ class EntityManager:
         self.player = None
         self.spatial_grid = SpatialGrid()
 
+        self.last_tick_ms = []
+
+    def player_input(self, inputs):
+        for entity in self.entities:
+            entity.player_input(inputs)
+
+    def tick(self, dt: float):
+        start = time.perf_counter()
+
+        self._rebuild_spatial_grid()
+        self.check_triggers_tick()
+
+        for entity in self.entities:
+            entity.tick(dt)
+
+        tick_ms = (time.perf_counter() - start) * 1000.0
+        if len(self.last_tick_ms) >= 60:
+            self.last_tick_ms.pop(0)
+        self.last_tick_ms.append(tick_ms)
+
+    def audio(self, mixer):
+        for entity in self.entities:
+            entity.audio(mixer)
 
     def add_entity(self, entity):
         is_player = type(entity).__name__ == "Player"
@@ -72,54 +96,49 @@ class EntityManager:
 
 
     def _hitboxes_overlapping(self, box_a, phys_a, box_b, phys_b) -> bool:
-        tl_a = box_a.get_absolute_position(phys_a.position, phys_a.width, phys_a.height)
-        tl_b = box_b.get_absolute_position(phys_b.position, phys_b.width, phys_b.height)
+        pos_a = box_a.get_absolute_position(phys_a.position, phys_a.width, phys_a.height)
+        pos_b = box_b.get_absolute_position(phys_b.position, phys_b.width, phys_b.height)
 
-
+        # --- RECTANGLE vs RECTANGLE ---
         if box_a.type == HitboxType.RECTANGLE and box_b.type == HitboxType.RECTANGLE:
-            return (tl_a.x < tl_b.x + box_b.w_or_r and
-                    tl_a.x + box_a.w_or_r > tl_b.x and
-                    tl_a.y < tl_b.y + box_b.height and
-                    tl_a.y + box_a.height > tl_b.y)
-           
-        elif box_a.type == HitboxType.CIRCLE and box_b.type == HitboxType.CIRCLE:
-            center_a = phys_a.position + box_a.offset
-            center_b = phys_b.position + box_b.offset
-            dist_sq = (center_a.x - center_b.x)**2 + (center_a.y - center_b.y)**2
-            return dist_sq < (box_a.w_or_r + box_b.w_or_r)**2
-       
-        elif (box_a.type == HitboxType.CIRCLE and box_b.type == HitboxType.RECTANGLE) or \
-             (box_a.type == HitboxType.RECTANGLE and box_b.type == HitboxType.CIRCLE):
-           
-            circle_box, rect_box = (box_a, box_b) if box_a.type == HitboxType.CIRCLE else (box_b, box_a)
-            c_phys, r_phys = (phys_a, phys_b) if box_a.type == HitboxType.CIRCLE else (phys_b, phys_a)
-           
-            c_center = c_phys.position + circle_box.offset
-            r_tl = rect_box.get_absolute_position(r_phys.position, r_phys.width, r_phys.height)
-           
-            closest_x = max(r_tl.x, min(c_center.x, r_tl.x + rect_box.w_or_r))
-            closest_y = max(r_tl.y, min(c_center.y, r_tl.y + rect_box.height))
-           
-            distance_sq = (c_center.x - closest_x)**2 + (c_center.y - closest_y)**2
-            return distance_sq < (circle_box.w_or_r)**2
+            return (pos_a.x < pos_b.x + box_b.w_or_r and
+                    pos_a.x + box_a.w_or_r > pos_b.x and
+                    pos_a.y < pos_b.y + box_b.height and
+                    pos_a.y + box_a.height > pos_b.y)
+            
+        # --- CIRCLE vs CIRCLE ---
+        if box_a.type == HitboxType.CIRCLE and box_b.type == HitboxType.CIRCLE:
+            return (pos_a - pos_b).length_squared() < (box_a.w_or_r + box_b.w_or_r) ** 2
+        
+        # --- CIRCLE vs RECTANGLE ---
+        if (box_a.type == HitboxType.CIRCLE and box_b.type == HitboxType.RECTANGLE) or \
+           (box_a.type == HitboxType.RECTANGLE and box_b.type == HitboxType.CIRCLE):
+            
+            if box_a.type == HitboxType.CIRCLE:
+                c_center, r_tl = pos_a, pos_b
+                circle_box, rect_box = box_a, box_b
+            else:
+                c_center, r_tl = pos_b, pos_a
+                circle_box, rect_box = box_b, box_a
+            
+            radius = circle_box.w_or_r
+            half_w = rect_box.w_or_r / 2.0
+            half_h = rect_box.height / 2.0
 
+            rect_center = r_tl + Vector2f(half_w, half_h)
+            diff = c_center - rect_center
+            dist_x = abs(diff.x)
+            dist_y = abs(diff.y)
+
+            if dist_x > (half_w + radius) or dist_y > (half_h + radius): 
+                return False
+
+            if dist_x <= half_w or dist_y <= half_h: 
+                return True
+
+            return (dist_x - half_w) ** 2 + (dist_y - half_h) ** 2 < radius ** 2
 
         return False
-
-
-    def player_input(self, inputs):
-        for entity in self.entities:
-            entity.player_input(inputs)
-
-
-    def tick(self, dt: float):
-        self._rebuild_spatial_grid()
-        self.check_triggers_tick()
-
-
-        for entity in self.entities:
-            entity.tick(dt)
-
 
     def render(self, graphics: Renderer, camera: Camera = None):
         cam_left = camera.position.x

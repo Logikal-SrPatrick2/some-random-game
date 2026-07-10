@@ -102,14 +102,30 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
+   },
+   "player 13.ase": {
+    "frame": { "x": 416, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "player 14.ase": {
+    "frame": { "x": 448, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
    }
  },
  "meta": {
   "app": "https://github.com/LibreSprite/LibreSprite/",
   "version": "1.1-dev",
-  "image": "C:\\Users\\Patrick\\Documents\\player.png",
+  "image": "C:\\Users\\Patrick\\Desktop\\PYTHON PROJECTS\\pygameopenworld\\res\\spritesheets\\player\\player.png",
   "format": "RGBA8888",
-  "size": { "w": 416, "h": 32 },
+  "size": { "w": 480, "h": 32 },
   "scale": "1",
   "frameTags": [
   ],

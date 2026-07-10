@@ -24,8 +24,10 @@ class SpatialGrid:
 
     def insert(self, entity):
         phys = entity.physics
+        max_w, max_h = phys.get_hitbox_bounds()
+        
         min_cx, max_cx, min_cy, max_cy = self._cell_range(
-            phys.position.x, phys.position.y, phys.width, phys.height
+            phys.position.x, phys.position.y, max_w, max_h
         )
 
         for cx in range(min_cx, max_cx + 1):
@@ -34,10 +36,12 @@ class SpatialGrid:
 
     def get_nearby_entities(self, entity):
         phys = entity.physics
+        max_w, max_h = phys.get_hitbox_bounds()
+        
         return self.get_nearby_at(
-            phys.position.x, phys.position.y, phys.width, phys.height, exclude=entity
+            phys.position.x, phys.position.y, max_w, max_h, exclude=entity
         )
-
+    
     def get_nearby_at(self, x: float, y: float, width: float, height: float, exclude=None):
         min_cx, max_cx, min_cy, max_cy = self._cell_range(x, y, width, height)
 

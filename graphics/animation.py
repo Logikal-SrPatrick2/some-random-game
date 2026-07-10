@@ -6,6 +6,7 @@ class Animation:
         self.frames = frame_assets
         self.frame_duration = frame_duration_ms / 1000.0
         self.loops = loops
+        self.done = False
         
         self.current_frame_index = 0
         self.time_accumulator = 0.0
@@ -25,6 +26,7 @@ class Animation:
                     self.current_frame_index = 0
                 else:
                     self.current_frame_index = len(self.frames) - 1 
+                    self.done = True
 
     def render(self, graphics, x, y, mode: RenderMode = RenderMode.TOP_LEFT):
         active_frame = self.frames[self.current_frame_index]

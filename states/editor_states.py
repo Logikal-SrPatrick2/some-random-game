@@ -13,6 +13,8 @@ from entities.entity_manager import EntityManager
 from entities.entity_physics import EntityPhysics
 
 class EditorState(State):
+    editor_filename = "edit_level.json"
+
     def __init__(self, manager: StateManager, screen_width: int, screen_height: int, 
                  entity_manager: EntityManager = None, tile_manager: TileManager = None):
         super().__init__(manager)
@@ -64,9 +66,9 @@ class EditorState(State):
             grid_y = int(world_mouse_y // DEFAULT_TILE_SIZE)
             
             if 0 <= grid_x < self.tile_manager.cols and 0 <= grid_y < self.tile_manager.rows:
-                if inputs.mouse_buttons[0]:    # Left Click - Paint Item
+                if inputs.mouse_clicked[0]:    # Left Click - Paint Item
                     self.execute_placement(grid_x, grid_y, world_mouse_x, world_mouse_y)
-                elif inputs.mouse_buttons[2]:  # Right Click - Erase Brush
+                elif inputs.mouse_clicked[2]:  # Right Click - Erase Brush
                     self.execute_tile_paint(grid_x, grid_y, 0)
 
     def execute_tile_paint(self, grid_x, grid_y, tile_id):
@@ -148,11 +150,11 @@ class EditorState(State):
         self.menu_btn.render(graphics)
             
     def trigger_save(self):
-        LevelIO.save_level("edit_level.json", self.tile_manager, self.entity_manager)
-        print("Level saved to levels/edit_level.json")
+        LevelIO.save_level(EditorState.editor_filename, self.tile_manager, self.entity_manager)
+        print(f"Level saved to levels/{EditorState.editor_filename}")
 
     def trigger_load(self):
-        success = LevelIO.load_level("edit_level.json", self.tile_manager, self.entity_manager)
+        success = LevelIO.load_level(EditorState.editor_filename, self.tile_manager, self.entity_manager)
         if success:
             print("Level loaded successfully!")
 

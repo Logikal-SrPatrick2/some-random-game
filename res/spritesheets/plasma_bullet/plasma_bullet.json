@@ -1,5 +1,5 @@
 { "frames": {
-   "tilemap 0.ase": {
+   "plasma_bullet 0.ase": {
     "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "tilemap 1.ase": {
+   "plasma_bullet 1.ase": {
     "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "tilemap 2.ase": {
+   "plasma_bullet 2.ase": {
     "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "tilemap 3.ase": {
+   "plasma_bullet 3.ase": {
     "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -31,40 +31,8 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "tilemap 4.ase": {
+   "plasma_bullet 4.ase": {
     "frame": { "x": 128, "y": 0, "w": 32, "h": 32 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
-    "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
-   },
-   "tilemap 5.ase": {
-    "frame": { "x": 160, "y": 0, "w": 32, "h": 32 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
-    "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
-   },
-   "tilemap 6.ase": {
-    "frame": { "x": 192, "y": 0, "w": 32, "h": 32 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
-    "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
-   },
-   "tilemap 7.ase": {
-    "frame": { "x": 224, "y": 0, "w": 32, "h": 32 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
-    "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
-   },
-   "tilemap 8.ase": {
-    "frame": { "x": 256, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
@@ -75,9 +43,9 @@
  "meta": {
   "app": "https://github.com/LibreSprite/LibreSprite/",
   "version": "1.1-dev",
-  "image": "C:\\Users\\Patrick\\Desktop\\PYTHON PROJECTS\\pygameopenworld\\res\\spritesheets\\tilemap\\tilemap.png",
+  "image": "C:\\Users\\Patrick\\Desktop\\PYTHON PROJECTS\\pygameopenworld\\res\\spritesheets\\plasma_bullet\\plasma_bullet.png",
   "format": "RGBA8888",
-  "size": { "w": 288, "h": 32 },
+  "size": { "w": 160, "h": 32 },
   "scale": "1",
   "frameTags": [
   ],

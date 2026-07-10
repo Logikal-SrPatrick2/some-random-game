@@ -1,5 +1,5 @@
 from utils.vector2f import Vector2f
-from tiles.tile_types import Floor, Drainage, Barricade
+from tiles.tile_types import Floor, Drainage, Barricade, WallR, WallL, WallFull, WallD, WallDL, WallDR
 from graphics.animation import Animation
 from graphics.spritesheet import Spritesheet
 from tiles.base_tile import DEFAULT_TILE_SIZE
@@ -7,7 +7,13 @@ from tiles.base_tile import DEFAULT_TILE_SIZE
 TILE_FACTORY = {
     0: Floor,
     1: Drainage,
-    2: Barricade
+    2: Barricade,
+    3: WallR,
+    4: WallL,
+    5: WallFull,
+    6: WallD,
+    7: WallDL,
+    8: WallDR
 }
 
 class TileManager:
@@ -55,6 +61,9 @@ class TileManager:
         for y in range(self.rows):
             for x in range(self.cols):
                 self.tilemap[y][x].tick(dt)
+    
+    def audio(self, mixer):
+        pass
 
     def render(self, graphics, camera):
         start_col = max(0, int(camera.position.x // DEFAULT_TILE_SIZE))

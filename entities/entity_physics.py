@@ -18,6 +18,20 @@ class EntityPhysics:
         self.hitboxes = []
         self.main_hitbox = None
 
+    def get_hitbox_bounds(self) -> tuple[float, float]:
+        max_w = self.width
+        max_h = self.height
+        
+        for box in self.hitboxes:
+            if box.type == HitboxType.RECTANGLE:
+                max_w = max(max_w, abs(box.offset.x) + box.w_or_r)
+                max_h = max(max_h, abs(box.offset.y) + box.height)
+            elif box.type == HitboxType.CIRCLE:
+                max_w = max(max_w, (abs(box.offset.x) + box.w_or_r) * 2)
+                max_h = max(max_h, (abs(box.offset.y) + box.w_or_r) * 2)
+                
+        return max_w, max_h
+
 
     def add_hitbox(self, hitbox: Hitbox, is_main: bool = False):
         self.hitboxes.append(hitbox)

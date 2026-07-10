@@ -30,6 +30,10 @@ class StateManager:
         for state in reversed(states_to_tick):
             state.tick(dt)
 
+    def audio(self, mixer):
+        if self.stack:
+            self.stack[-1].audio(mixer)
+
     def render(self, graphics):
         if not self.stack:
             return

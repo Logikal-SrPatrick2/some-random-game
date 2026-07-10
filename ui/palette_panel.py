@@ -25,8 +25,22 @@ class PalettePanel:
         self.buttons.append(Button(self.rect.x + 10, self.rect.y + 230, 180, 40, "Spawn Alien", 
                                    on_click=lambda: self.set_brush("ENTITY", "RoamingAlien")))
         
+        # more tile brushes
+        self.buttons.append(Button(self.rect.x + 10, self.rect.y + 280, 40, 40, "R", 
+                                   on_click=lambda: self.set_brush("TILE", 3)))
+        self.buttons.append(Button(self.rect.x + 60, self.rect.y + 280, 40, 40, "L", 
+                                   on_click=lambda: self.set_brush("TILE", 4)))
+        self.buttons.append(Button(self.rect.x + 110, self.rect.y + 280, 40, 40, "Full", 
+                                   on_click=lambda: self.set_brush("TILE", 5)))
+        self.buttons.append(Button(self.rect.x + 10, self.rect.y + 350, 40, 40, "D", 
+                                   on_click=lambda: self.set_brush("TILE", 6)))
+        self.buttons.append(Button(self.rect.x + 60, self.rect.y + 350, 40, 40, "DL", 
+                                   on_click=lambda: self.set_brush("TILE", 7)))
+        self.buttons.append(Button(self.rect.x + 110, self.rect.y + 350, 40, 40, "DR", 
+                                   on_click=lambda: self.set_brush("TILE", 8)))
+        
         # Utility Brushes
-        self.buttons.append(Button(self.rect.x + 10, self.rect.y + 290, 180, 40, "Delete Entity", 
+        self.buttons.append(Button(self.rect.x + 10, self.rect.y + 400, 180, 40, "Delete Entity", 
                                    on_click=lambda: self.set_brush("DELETE_ENTITY", "Eraser")))
 
     def set_brush(self, brush_type, assignment):

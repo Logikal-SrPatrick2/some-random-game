@@ -24,7 +24,10 @@ class Button:
         if self.is_hovered:
             self._on_hover()
         else:
-            self.color = (50, 50, 70) 
+            self.color = (50, 50, 70)
+
+    def audio(self, mixer):
+        pass 
 
     def render(self, graphics):
         graphics.draw_rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height, self.color)

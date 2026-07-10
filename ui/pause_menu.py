@@ -39,6 +39,9 @@ class PauseMenu:
         for button in self.buttons:
             button.tick(dt)
 
+    def audio(self, mixer):
+        pass
+
     def render(self, graphics: Renderer):
         graphics.draw_rect(self.x, self.y, self.width, self.height, (20, 20, 20))
         for button in self.buttons:

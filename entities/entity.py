@@ -7,6 +7,7 @@ from entities.hitbox import Hitbox, HitboxType
 from entities.entity_manager import EntityManager
 from utils.vector2f import Vector2f
 from tiles.tile_manager import TileManager
+from auditory.mixer import Mixer
 
 class Entity:
     def __init__(self, physics_component: EntityPhysics, animation_component: Animation, manager: EntityManager, tile_manager: TileManager):
@@ -23,6 +24,9 @@ class Entity:
         self.physics.movement_tick(dt, self.manager, self.tile_manager, self)
         self.animation.tick(dt)
 
+    def audio(self, mixer: Mixer):
+        pass
+
     def render(self, graphics: Renderer, camera: Camera, mode: RenderMode = RenderMode.CENTER):
         screen_center = camera.to_screen_coords(self.physics.position)
 
@@ -36,14 +40,14 @@ class Entity:
         for hitbox in self.physics.hitboxes:
             if hitbox.show_hitbox:
                 debug_color = (255, 0, 0) # Red
+
+                tl_coords = hitbox.get_absolute_position(self.physics.position, self.physics.width, self.physics.height)
+                screen_hitbox = camera.to_screen_coords(tl_coords)
+                    
+                screen_hitbox_x = screen_hitbox.x
+                screen_hitbox_y = screen_hitbox.y
                 
                 if hitbox.type == HitboxType.RECTANGLE:
-                    screen_entity_tl_x = screen_center.x - (self.physics.width / 2.0)
-                    screen_entity_tl_y = screen_center.y - (self.physics.height / 2.0)
-                    
-                    screen_hitbox_x = screen_entity_tl_x + hitbox.offset.x
-                    screen_hitbox_y = screen_entity_tl_y + hitbox.offset.y
-
                     graphics.draw_rect_hollow(
                         int(round(screen_hitbox_x)), 
                         int(round(screen_hitbox_y)), 
@@ -53,13 +57,9 @@ class Entity:
                     )
                     
                 elif hitbox.type == HitboxType.CIRCLE:
-                    # Simply add the local offset straight to the screen center
-                    screen_circle_x = screen_center.x + hitbox.offset.x
-                    screen_circle_y = screen_center.y + hitbox.offset.y
-
                     graphics.draw_circle_hollow(
-                        int(round(screen_circle_x)), 
-                        int(round(screen_circle_y)), 
+                        int(round(screen_hitbox_x)), 
+                        int(round(screen_hitbox_y)), 
                         int(round(hitbox.w_or_r)), 
                         debug_color
                     )
