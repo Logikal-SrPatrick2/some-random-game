@@ -95,7 +95,7 @@ class MainMenuState(State):
         super().render(graphics)
         self.title.render(graphics, 1280//2, 720//10 + 50, RenderMode.CENTER)
         graphics.draw_text_centered("By: Patrick", (92, 225, 230), 1280//2 - 415, 720//10 + 150, customFont=pygame.font.Font(None, 30))
-        graphics.draw_text_centered("Pre-Alpha v0.2.0", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=pygame.font.Font(None, 30))
+        graphics.draw_text_centered("Pre-Alpha v0.2.1", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=pygame.font.Font(None, 30))
 
     def free_play(self):
         self.manager.change_state(GameState(self.manager))
