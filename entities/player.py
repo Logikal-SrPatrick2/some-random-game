@@ -10,6 +10,7 @@ from utils.vector2f import Vector2f
 from entities.plasma_bullet_effect import PlasmaBulletEffect
 from auditory.mixer import Mixer
 from random import randrange
+from utils.conversion_to_exe import resource_path
 import pygame
 
 DEFAULT_HEALTH = 100
@@ -61,8 +62,8 @@ class Player(Creature):
         self.creatures_within_attack_range_temp = set()
         self.closest_creature = None
 
-        img_path = "res/spritesheets/player/player.png"
-        json_path = "res/spritesheets/player/player.json"
+        img_path = resource_path("res/spritesheets/player/player.png")
+        json_path = resource_path("res/spritesheets/player/player.json")
         master_spritesheet = Spritesheet(img_path, json_path)
         all_frames = master_spritesheet.get_frames()
 

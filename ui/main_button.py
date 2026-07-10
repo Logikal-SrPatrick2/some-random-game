@@ -4,10 +4,11 @@ from graphics.image_asset import ImageAsset
 from graphics.render_mode import RenderMode
 from systems.input_handler import InputHandler
 from graphics.renderer import Renderer
+from utils.conversion_to_exe import resource_path
 
 def get_spritesheet() -> list[ImageAsset]:
-    img_path = "res/spritesheets/main_buttons/main_buttons.png"
-    json_path = "res/spritesheets/main_buttons/main_buttons.json"
+    img_path = resource_path("res/spritesheets/main_buttons/main_buttons.png")
+    json_path = resource_path("res/spritesheets/main_buttons/main_buttons.json")
     btns_spritesheet = Spritesheet(img_path, json_path)
 
     return btns_spritesheet.get_frames()

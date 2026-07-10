@@ -12,6 +12,7 @@ from tiles.tile_manager import TileManager
 from world.level_io import LevelIO
 from graphics.camera import Camera
 from auditory.mixer import Mixer
+from utils.conversion_to_exe import resource_path
 import pygame
 
 class MenuState(State):
@@ -51,7 +52,7 @@ class MainMenuState(State):
         self.objects.append(self.tile_manager)
         self.objects.append(self.entity_manager)
 
-        self.title = ImageAsset("res/spritesheets/title/title.png")
+        self.title = ImageAsset(resource_path("res/spritesheets/title/title.png"))
         self.title.resize(260*4, 39*4)
 
         self.play_btn = MainButton(
@@ -94,7 +95,7 @@ class MainMenuState(State):
         super().render(graphics)
         self.title.render(graphics, 1280//2, 720//10 + 50, RenderMode.CENTER)
         graphics.draw_text_centered("By: Patrick", (92, 225, 230), 1280//2 - 415, 720//10 + 150, customFont=pygame.font.Font(None, 30))
-        graphics.draw_text_centered("Pre-Alpha v0.1.0", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=pygame.font.Font(None, 30))
+        graphics.draw_text_centered("Pre-Alpha v0.2.0", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=pygame.font.Font(None, 30))
 
     def free_play(self):
         self.manager.change_state(GameState(self.manager))

@@ -6,7 +6,7 @@ class Spritesheet:
     def __init__(self, image_path, json_path):
         self.master_asset = ImageAsset(file_path=image_path)
         
-        with open(json_path, 'r') as f:
+        with open(json_path, 'r', encoding="utf-8") as f:
             self.data = json.load(f)
 
     def get_frames(self):

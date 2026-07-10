@@ -2,6 +2,7 @@ from utils.vector2f import Vector2f
 from tiles.tile_types import Floor, Drainage, Barricade, WallR, WallL, WallFull, WallD, WallDL, WallDR
 from graphics.animation import Animation
 from graphics.spritesheet import Spritesheet
+from utils.conversion_to_exe import resource_path
 from tiles.base_tile import DEFAULT_TILE_SIZE
 
 TILE_FACTORY = {
@@ -18,8 +19,8 @@ TILE_FACTORY = {
 
 class TileManager:
     def __init__(self):
-        img_path = "res/spritesheets/tilemap/tilemap.png"
-        json_path = "res/spritesheets/tilemap/tilemap.json"
+        img_path = resource_path("res/spritesheets/tilemap/tilemap.png")
+        json_path = resource_path("res/spritesheets/tilemap/tilemap.json")
 
         self.master_spritesheet = Spritesheet(img_path, json_path).get_frames()
         

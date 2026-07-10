@@ -6,6 +6,7 @@ from graphics.animation import Animation
 from graphics.spritesheet import Spritesheet
 from graphics.renderer import Renderer
 from graphics.render_mode import RenderMode
+from utils.conversion_to_exe import resource_path
 from tiles.tile_manager import TileManager
 
 DEFAULT_HEALTH = 40
@@ -38,8 +39,8 @@ class RoamingAlien(Creature):
             True
         )
 
-        img_path = "res/spritesheets/roaming_alien/roaming_alien.png"
-        json_path = "res/spritesheets/roaming_alien/roaming_alien.json"
+        img_path = resource_path("res/spritesheets/roaming_alien/roaming_alien.png")
+        json_path = resource_path("res/spritesheets/roaming_alien/roaming_alien.json")
 
         master_spritesheet = Spritesheet(img_path, json_path).get_frames()
         self.animation = Animation(master_spritesheet, frame_duration_ms=DEFAULT_IDLE_SPRITE_FRAME_SPEED)

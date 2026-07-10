@@ -1,4 +1,5 @@
 import pygame
+from utils.conversion_to_exe import resource_path
 
 class Renderer:
     def __init__(self):
@@ -11,7 +12,7 @@ class Renderer:
         pygame.display.set_caption(caption)
         self.default_font = pygame.font.Font(None, 14)
         self.large_font = pygame.font.Font(None, 56)
-        self.orbitron = pygame.font.Font("res/fonts/Orbitron.ttf", 25)
+        self.orbitron = pygame.font.Font(resource_path("res/fonts/Orbitron.ttf"), 25)
 
     def clear(self, color=(0, 0, 0)):
         if self.window_surface:

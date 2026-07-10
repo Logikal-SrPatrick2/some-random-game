@@ -3,15 +3,18 @@ import os
 from tiles.tile_manager import TILE_FACTORY, Floor
 from tiles.base_tile import DEFAULT_TILE_SIZE
 from entities.entity_factory import entity_factory
+from utils.conversion_to_exe import resource_path
 
 class LevelIO:
     @staticmethod
     def save_level(filename: str, tile_manager, entity_manager) -> bool:
         directory = "levels"
-        if not os.path.exists(directory):
-            os.makedirs(directory)
             
         path = os.path.join(directory, filename)
+
+        path = resource_path(str(path))
+
+        
         
         tile_matrix = []
         for y in range(tile_manager.rows):
@@ -51,7 +54,7 @@ class LevelIO:
         }
 
         try:
-            with open(path, "w") as f:
+            with open(path, "w", encoding="utf-8") as f:
                 json.dump(payload, f, indent=4)
             return True
         except Exception as e:
@@ -62,11 +65,12 @@ class LevelIO:
     def load_level(filename: str, tile_manager, entity_manager, entity_factory_cb = entity_factory) -> bool:
   
         path = os.path.join("levels", filename)
+        path = resource_path(str(path))
         if not os.path.exists(path):
             return False
             
         try:
-            with open(path, "r") as f:
+            with open(path, "r", encoding="utf-8") as f:
                 payload = json.load(f)
                 
             #  Map Tiles

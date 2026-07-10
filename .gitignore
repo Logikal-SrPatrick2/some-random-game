@@ -1,3 +1,5 @@
 **/*.ase
 **/*.pyc
 .vscode/
+venv/
+build/
