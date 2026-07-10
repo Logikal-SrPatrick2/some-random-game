@@ -9,3 +9,6 @@
 
 ### PRE-ALPHA v0.2.2
 - Bug Fixes (FOR REAL THIS TIME)
+
+### PRE-ALPHA v0.2.3
+- Bug Fixes (FOR REAL FOR REAL THIS TIME)
