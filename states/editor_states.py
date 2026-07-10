@@ -92,10 +92,18 @@ class EditorState(State):
                 return
                 
             if ent_type == "Player":
-                self.entity_manager.entities = [
-                    ent for ent in self.entity_manager.entities 
-                    if ent.name != "Player"
-                ]
+                from entities.player import Player
+
+                player_ent = None
+                for ent in self.entity_manager.entities:
+                    if hasattr(ent, "name"):
+                        if ent.name == "Player":
+                            player_ent = ent
+                    else:
+                        if isinstance(ent, Player):
+                            player_ent = ent
+
+                self.entity_manager.entities.remove(player_ent)
 
             mock_attrs = {"x": world_x, "y": world_y, "width": 128, "height": 128}
             

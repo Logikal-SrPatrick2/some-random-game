@@ -6,7 +6,7 @@
     "tilemap": [
         [
             2,
-            2,
+            0,
             2,
             2,
             2,
@@ -1203,10 +1203,118 @@
             }
         },
         {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 677.0,
+                "y": 449.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 673.0,
+                "y": 528.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 604.0,
+                "y": 605.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 446.0,
+                "y": 634.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 315.0,
+                "y": 629.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 229.0,
+                "y": 543.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 233.0,
+                "y": 393.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 280.0,
+                "y": 317.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 392.0,
+                "y": 262.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 530.0,
+                "y": 261.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 606.0,
+                "y": 272.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
+            "type": "RoamingAlien",
+            "attributes": {
+                "x": 644.0,
+                "y": 323.0,
+                "width": 128,
+                "height": 128
+            }
+        },
+        {
             "type": "Player",
             "attributes": {
-                "x": 444.7417638713535,
-                "y": 434.8873862301739,
+                "x": 480.0,
+                "y": 447.0,
                 "width": 128,
                 "height": 128
             }
