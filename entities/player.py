@@ -34,6 +34,8 @@ class Player(Creature):
             ay=0
         )
 
+        self.name = "Player"
+
         self.physics.add_hitbox(
             Hitbox(
                 "PLAYER HITBOX",

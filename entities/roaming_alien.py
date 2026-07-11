@@ -26,6 +26,8 @@ class RoamingAlien(Creature):
             ay=0
         )
 
+        self.name = "RoamingAlien"
+
         self.physics.add_hitbox(
             Hitbox(
                 "ROAMING ALIEN HITBOX",
