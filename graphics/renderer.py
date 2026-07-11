@@ -2,6 +2,7 @@ import pygame
 from utils.conversion_to_exe import resource_path
 
 class Renderer:
+    orbitron = None
     def __init__(self):
         self.window_surface = None
         self.default_font = None
@@ -13,12 +14,13 @@ class Renderer:
         self.default_font = pygame.font.Font(None, 14)
         self.large_font = pygame.font.Font(None, 56)
         self.orbitron = pygame.font.Font(resource_path("res/fonts/Orbitron.ttf"), 25)
+        Renderer.orbitron = self.orbitron
 
     def clear(self, color=(0, 0, 0)):
         if self.window_surface:
             self.window_surface.fill(color)
 
-    def draw_text(self, text: str, color: tuple, x: int, y: int, larger_font: bool = False, customFont: pygame.font.Font = None):
+    def draw_text(self, text: str, color: tuple, x: int, y: int, larger_font: bool = False, customFont: pygame.font.Font = None, debug: bool = False):
         if not customFont:
             if self.window_surface and self.default_font:
                 if larger_font:
@@ -28,6 +30,9 @@ class Renderer:
         else:
             if self.window_surface:
                 text_surface = customFont.render(text, True, color)
+
+        if debug:
+            print(x, y)
         self.window_surface.blit(text_surface, (x, y))
 
     def draw_text_centered(self, text: str, color: tuple, x: int, y: int, larger_font: bool = False, customFont: pygame.font.Font = None):

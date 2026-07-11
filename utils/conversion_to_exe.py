@@ -1,5 +1,6 @@
 import sys
 import os
+from pathlib import Path
 
 def resource_path(relative_path):
     try:
@@ -17,3 +18,8 @@ def get_save_path(filename):
         base_path = os.path.dirname(os.path.abspath(sys.argv[0]))
         
     return os.path.join(base_path, filename)
+
+def check_if_exist(file_path):
+    path = Path(file_path)
+
+    return path.exists()

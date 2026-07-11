@@ -15,3 +15,8 @@
 
 ### PRE-ALPHA v0.2.4
 - Bug Fixes (FOR REAL FOR REAL FOR REAL THIS TIME)
+- Successfully fixed editor issue
+
+### PRE-ALPHA v0.2.5
+- Fixed crashing on play level click issue
+- Made exit button functional

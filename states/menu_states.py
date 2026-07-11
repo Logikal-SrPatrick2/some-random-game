@@ -12,7 +12,8 @@ from tiles.tile_manager import TileManager
 from world.level_io import LevelIO
 from graphics.camera import Camera
 from auditory.mixer import Mixer
-from utils.conversion_to_exe import resource_path
+from utils.conversion_to_exe import resource_path, check_if_exist, get_save_path
+from ui.toast import Toast
 import pygame
 
 class MenuState(State):
@@ -68,13 +69,16 @@ class MainMenuState(State):
         )
 
         self.exit_btn = MainButton(
-            1280//2, 720//4 + 450, 180*2, 36*2, "EXIT", 0, 1
+            1280//2, 720//4 + 450, 180*2, 36*2, "EXIT", 0, 1, on_click=self.exit
         )
+
+        self.toast = Toast()
 
         self.ui_elements.append(self.play_btn)
         self.ui_elements.append(self.edit_btn)
         self.ui_elements.append(self.play_custom_btn)
         self.ui_elements.append(self.exit_btn)
+        self.ui_elements.append(self.toast)
 
         self.bgm_is_playing = False
 
@@ -95,7 +99,7 @@ class MainMenuState(State):
         super().render(graphics)
         self.title.render(graphics, 1280//2, 720//10 + 50, RenderMode.CENTER)
         graphics.draw_text_centered("By: Patrick", (92, 225, 230), 1280//2 - 415, 720//10 + 150, customFont=pygame.font.Font(None, 30))
-        graphics.draw_text_centered("Pre-Alpha v0.2.4", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=pygame.font.Font(None, 30))
+        graphics.draw_text_centered("Pre-Alpha v0.2.5", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=pygame.font.Font(None, 30))
 
     def free_play(self):
         self.manager.change_state(GameState(self.manager))
@@ -105,8 +109,15 @@ class MainMenuState(State):
         self.manager.change_state(EditorState(self.manager, 1280, 720))
 
     def play_custom(self):
-        self.manager.change_state(GameState(self.manager))
-        self.manager.push(WorldState(self.manager, "edit_level.json"))
+        if check_if_exist(get_save_path("levels/edit_level.json")):
+            self.manager.change_state(GameState(self.manager))
+            self.manager.push(WorldState(self.manager, "edit_level.json"))
+        else:
+            self.toast.execute_toast("PLEASE CREATE A LEVEL FIRST", 60, 1000)
+
+    def exit(self):
+        from systems.activation import kill_program
+        kill_program()
 
     def level_select(self):
         self.manager.push(LevelSelectState(self.manager))
