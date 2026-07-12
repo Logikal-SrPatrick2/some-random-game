@@ -13,6 +13,7 @@ from entities.entity_manager import EntityManager
 from entities.entity_physics import EntityPhysics
 from utils.conversion_to_exe import check_if_exist, get_save_path
 from ui.toast import Toast
+from systems.input_handler import InputHandler
 
 class EditorState(State):
     editor_filename = "edit_level.json"
@@ -45,7 +46,7 @@ class EditorState(State):
         self.palette.active_id = "Player"
         print("[EDITOR] Active brush set to: Player")
 
-    def player_input(self, inputs):
+    def player_input(self, inputs: InputHandler):
         dt = 1.0 / 60.0
         
         move_dir = Vector2f(0.0, 0.0)
@@ -70,10 +71,16 @@ class EditorState(State):
             grid_y = int(world_mouse_y // DEFAULT_TILE_SIZE)
             
             if 0 <= grid_x < self.tile_manager.cols and 0 <= grid_y < self.tile_manager.rows:
-                if inputs.mouse_clicked[0]:    # Left Click - Paint Item
-                    self.execute_placement(grid_x, grid_y, world_mouse_x, world_mouse_y)
-                elif inputs.mouse_clicked[2]:  # Right Click - Erase Brush
-                    self.execute_tile_paint(grid_x, grid_y, 0)
+                if self.palette.active_brush_type == "ENTITY":
+                    if inputs.mouse_clicked[0]:    # Left Click - Paint Item
+                        self.execute_placement(grid_x, grid_y, world_mouse_x, world_mouse_y)
+                    elif inputs.mouse_clicked[2]:  # Right Click - Erase Brush
+                        self.execute_tile_paint(grid_x, grid_y, 0)
+                else:
+                    if inputs.mouse_buttons[0]:    # Left Click - Paint Item
+                        self.execute_placement(grid_x, grid_y, world_mouse_x, world_mouse_y)
+                    elif inputs.mouse_buttons[2]:  # Right Click - Erase Brush
+                        self.execute_tile_paint(grid_x, grid_y, 0)
 
     def execute_tile_paint(self, grid_x, grid_y, tile_id):
         """Paints a new tile instance safely initializing its underlying structural graphic asset properties."""

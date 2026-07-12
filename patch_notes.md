@@ -24,3 +24,6 @@
 ### PRE-ALPHA v0.3.0
 - Added raycasting to ensure valid plasma bullet trajectory
 - Minor fixes on potential crashes
+
+### PRE-ALPHA v0.3.1
+- Added Pathfinding using A*

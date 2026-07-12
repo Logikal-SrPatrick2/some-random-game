@@ -43,6 +43,12 @@ class WorldState(State):
         LevelIO.load_level(world_filename, self.tile_manager, self.entity_manager, entity_factory)
 
         self.camera.lock_to_entity(self.entity_manager.player)
+        """
+        from entities.roaming_alien import RoamingAlien
+        for entity in self.entity_manager.entities:
+            if isinstance(entity, RoamingAlien):
+                self.camera.lock_to_entity(entity)
+        """
 
         self.map_width = self.tile_manager.cols * DEFAULT_TILE_SIZE
         self.map_height = self.tile_manager.rows * DEFAULT_TILE_SIZE

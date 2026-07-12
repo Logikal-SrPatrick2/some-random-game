@@ -50,5 +50,11 @@ class RoamingAlien(Creature):
 
         super().__init__(self.physics, self.animation, manager, tile_manager, DEFAULT_HEALTH)
 
+        self.max_speed = 200.0
+
+    def tick(self, dt):
+        self.pathfind_tick(dt, self.manager.player)
+        super().tick(dt)
+
     def render(self, graphics, camera, mode = RenderMode.CENTER):
         super().render(graphics, camera, mode)

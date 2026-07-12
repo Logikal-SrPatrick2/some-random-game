@@ -92,6 +92,8 @@ class Player(Creature):
         self.on_successful_attack_callback = self.on_successful_attack
         self.on_activated_attack_callback = self.on_activated_attack
 
+        self.max_speed = DEFAULT_WALK_VELOCITY
+
     def player_input(self, inputs: InputHandler):
         super().player_input(inputs)
 
@@ -106,9 +108,9 @@ class Player(Creature):
                 self.physics.velocity.x = 0.0
             else:
                 if inputs.keys[pygame.K_d]:
-                    self.physics.velocity.x = DEFAULT_WALK_VELOCITY
+                    self.physics.velocity.x = self.max_speed
                 elif inputs.keys[pygame.K_a]:
-                    self.physics.velocity.x = -DEFAULT_WALK_VELOCITY
+                    self.physics.velocity.x = -self.max_speed
                 else:
                     self.physics.velocity.x = 0.0
 
@@ -116,9 +118,9 @@ class Player(Creature):
                 self.physics.velocity.y = 0.0
             else:
                 if inputs.keys[pygame.K_s]:
-                    self.physics.velocity.y = DEFAULT_WALK_VELOCITY
+                    self.physics.velocity.y = self.max_speed
                 elif inputs.keys[pygame.K_w]:
-                    self.physics.velocity.y = -DEFAULT_WALK_VELOCITY
+                    self.physics.velocity.y = -self.max_speed
                 else:
                     self.physics.velocity.y = 0.0
 
