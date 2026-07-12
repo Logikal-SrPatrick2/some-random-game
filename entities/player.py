@@ -90,6 +90,7 @@ class Player(Creature):
         self.is_shooting = False
         self.play_shooting_sound = False
         self.on_successful_attack_callback = self.on_successful_attack
+        self.on_activated_attack_callback = self.on_activated_attack
 
     def player_input(self, inputs: InputHandler):
         super().player_input(inputs)
@@ -187,4 +188,6 @@ class Player(Creature):
         effect_x = randrange(int(x), int(x + w))
         effect_y = randrange(int(y), int(y + h))
         self.manager.add_entity(PlasmaBulletEffect(self.manager, self.tile_manager, effect_x, effect_y))
+
+    def on_activated_attack(self):
         self.play_shooting_sound = True

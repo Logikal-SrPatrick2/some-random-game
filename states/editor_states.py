@@ -11,6 +11,8 @@ from ui.palette_panel import PalettePanel
 from ui.button import Button
 from entities.entity_manager import EntityManager
 from entities.entity_physics import EntityPhysics
+from utils.conversion_to_exe import check_if_exist, get_save_path
+from ui.toast import Toast
 
 class EditorState(State):
     editor_filename = "edit_level.json"
@@ -19,6 +21,8 @@ class EditorState(State):
                  entity_manager: EntityManager = None, tile_manager: TileManager = None):
         super().__init__(manager)
         self.camera = Camera(screen_width, screen_height)
+
+        self.toast = Toast()
         
         self.entity_manager = entity_manager if entity_manager is not None else EntityManager()
         self.tile_manager = tile_manager if tile_manager is not None else TileManager()
@@ -154,10 +158,13 @@ class EditorState(State):
         print(f"Level saved to levels/{EditorState.editor_filename}")
 
     def trigger_load(self):
-        success = LevelIO.load_level(EditorState.editor_filename, self.tile_manager, self.entity_manager)
-        if success:
-            print("Level loaded successfully!")
-
+        if check_if_exist(get_save_path(f"levels/{EditorState.editor_filename}")):
+            success = LevelIO.load_level(EditorState.editor_filename, self.tile_manager, self.entity_manager)
+            if success:
+                print("Level loaded successfully!")
+        else:
+            self.toast.execute_toast("PLEASE CREATE A LEVEL FIRST", 60, 1000)
+            
     def return_to_menu(self):
         from states.menu_states import MenuState, MainMenuState
         self.manager.change_state(MenuState(self.manager))

@@ -20,3 +20,7 @@
 ### PRE-ALPHA v0.2.5
 - Fixed crashing on play level click issue
 - Made exit button functional
+
+### PRE-ALPHA v0.3.0
+- Added raycasting to ensure valid plasma bullet trajectory
+- Minor fixes on potential crashes
