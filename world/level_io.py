@@ -2,7 +2,7 @@ import json
 import os
 from tiles.tile_manager import TILE_FACTORY, Floor
 from tiles.base_tile import DEFAULT_TILE_SIZE
-from entities.entity_factory import entity_factory
+from entities.utils.entity_factory import entity_factory
 from utils.conversion_to_exe import get_save_path, resource_path
 
 class LevelIO:

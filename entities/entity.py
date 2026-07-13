@@ -1,15 +1,15 @@
 from __future__ import annotations
-from entities.entity_physics import EntityPhysics
+from entities.mechanics.entity_physics import EntityPhysics
 from graphics.animation import Animation
 from graphics.render_mode import RenderMode
 from graphics.renderer import Renderer
 from graphics.camera import Camera
-from entities.hitbox import Hitbox, HitboxType
-from entities.entity_manager import EntityManager
+from entities.mechanics.hitbox import Hitbox, HitboxType
+from entities.utils.entity_manager import EntityManager
 from utils.vector2f import Vector2f
 from tiles.tile_manager import TileManager
 from auditory.mixer import Mixer
-from entities.pathfinding import PathFinding
+from entities.mechanics.pathfinding import PathFinding
 
 class Entity:
     def __init__(self, physics_component: EntityPhysics, animation_component: Animation, manager: EntityManager, tile_manager: TileManager):

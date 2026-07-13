@@ -7,7 +7,7 @@ from states.editor_states import EditorState
 from graphics.image_asset import ImageAsset
 from graphics.renderer import Renderer
 from graphics.render_mode import RenderMode
-from entities.entity_manager import EntityManager
+from entities.utils.entity_manager import EntityManager
 from tiles.tile_manager import TileManager
 from world.level_io import LevelIO
 from graphics.camera import Camera
@@ -99,7 +99,7 @@ class MainMenuState(State):
         super().render(graphics)
         self.title.render(graphics, 1280//2, 720//10 + 50, RenderMode.CENTER)
         graphics.draw_text_centered("By: Patrick & Meakay", (92, 225, 230), 1280//2 - 415, 720//10 + 150, customFont=graphics.orbitron)
-        graphics.draw_text_centered("Pre-Alpha v0.3.1", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=graphics.orbitron)
+        graphics.draw_text_centered("Pre-Alpha v0.3.2", (92, 225, 230), 1280//2 + 395, 720//10 + 150, customFont=graphics.orbitron)
 
     def free_play(self):
         self.manager.change_state(GameState(self.manager))

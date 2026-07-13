@@ -1,8 +1,8 @@
 from systems.input_handler import InputHandler
 from graphics.renderer import Renderer
-from entities.entity_manager import EntityManager
-from entities.player import Player
-from entities.roaming_alien import RoamingAlien
+from entities.utils.entity_manager import EntityManager
+from entities.creatures.player import Player
+from entities.creatures.roaming_alien import RoamingAlien
 import pygame
 
 WHITE = (255,255,255)

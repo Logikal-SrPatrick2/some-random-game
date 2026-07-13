@@ -27,3 +27,6 @@
 
 ### PRE-ALPHA v0.3.1
 - Added Pathfinding using A*
+
+### PRE-ALPHA v0.3.2
+- Created entity submodules for reorganization (no new features for user)

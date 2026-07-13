@@ -9,8 +9,8 @@ from tiles.tile_types import Floor
 from world.level_io import LevelIO
 from ui.palette_panel import PalettePanel
 from ui.button import Button
-from entities.entity_manager import EntityManager
-from entities.entity_physics import EntityPhysics
+from entities.utils.entity_manager import EntityManager
+from entities.mechanics.entity_physics import EntityPhysics
 from utils.conversion_to_exe import check_if_exist, get_save_path
 from ui.toast import Toast
 from systems.input_handler import InputHandler
@@ -135,6 +135,7 @@ class EditorState(State):
         self.load_btn.tick(dt)
         self.menu_btn.tick(dt)
         self.tile_manager.tick(dt)
+        self.toast.tick(dt)
 
     def render(self, graphics):
         self.tile_manager.render(graphics, self.camera)
@@ -159,6 +160,7 @@ class EditorState(State):
         self.save_btn.render(graphics)
         self.load_btn.render(graphics)
         self.menu_btn.render(graphics)
+        self.toast.render(graphics)
             
     def trigger_save(self):
         LevelIO.save_level(EditorState.editor_filename, self.tile_manager, self.entity_manager)
@@ -170,6 +172,7 @@ class EditorState(State):
             if success:
                 print("Level loaded successfully!")
         else:
+            print("TOASTT")
             self.toast.execute_toast("PLEASE CREATE A LEVEL FIRST", 60, 1000)
             
     def return_to_menu(self):

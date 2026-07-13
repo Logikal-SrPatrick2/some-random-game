@@ -1,14 +1,14 @@
 from states.base_state import State
 from states.manager import StateManager
-from entities.player import Player
-from entities.roaming_alien import RoamingAlien
-from entities.entity_manager import EntityManager
+from entities.creatures.player import Player
+from entities.creatures.roaming_alien import RoamingAlien
+from entities.utils.entity_manager import EntityManager
 from graphics.renderer import Renderer
 from graphics.camera import Camera
 from tiles.tile_manager import TileManager
 from tiles.base_tile import DEFAULT_TILE_SIZE
 from world.level_io import LevelIO
-from entities.entity_factory import entity_factory
+from entities.utils.entity_factory import entity_factory
 from systems.input_handler import InputHandler
 from ui.pause_menu import PauseMenu
 from ui.hud import HUD
@@ -48,6 +48,13 @@ class WorldState(State):
         for entity in self.entity_manager.entities:
             if isinstance(entity, RoamingAlien):
                 self.camera.lock_to_entity(entity)
+        """
+        """
+        from entities.roaming_alien import RoamingAlien
+        for entity in self.entity_manager.entities:
+            if isinstance(entity, RoamingAlien):
+                entity.max_speed = 0.0
+                break
         """
 
         self.map_width = self.tile_manager.cols * DEFAULT_TILE_SIZE
