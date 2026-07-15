@@ -26,7 +26,10 @@ class Entity:
         self.waypoint_threshold = 8.0 
         self.target_range = 64.0      
         self.path_timer = 0.0
-        self.path_interval = 0.2      
+        self.path_interval = 0.2
+
+    def check_collisions_tick(self):
+        pass      
 
     def pathfind_tick(self, dt: float, target_entity: Entity):
         if target_entity:

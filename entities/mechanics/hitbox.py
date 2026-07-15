@@ -1,7 +1,6 @@
 from enum import Enum, auto
 from utils.vector2f import Vector2f
 
-# DEBUG
 SHOW_HITBOX = False
 
 class HitboxType(Enum):

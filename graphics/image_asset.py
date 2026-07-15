@@ -9,7 +9,18 @@ class ImageAsset:
             self.surface = surface
 
     def resize(self, width: float, height: float):
-        self.surface = pygame.transform.scale(self.surface, (int(width), int(height)))
+        target_w = int(width)
+        target_h = int(height)
+    
+        if self.surface.get_width() == target_w and self.surface.get_height() == target_h:
+            return
+           
+        self.surface = pygame.transform.scale(self.surface, (target_w, target_h))
+
+    def rotate_and_copy(self, angle: int) -> 'ImageAsset':
+        new_surface = pygame.transform.rotate(self.surface, angle)
+        
+        return ImageAsset(surface=new_surface)
 
     def tick(self, dt):
         pass

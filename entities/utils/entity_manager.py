@@ -1,5 +1,6 @@
 from entities.mechanics.hitbox import Hitbox, HitboxType
 from entities.mechanics.spatial_grid import SpatialGrid
+from entities.mechanics.entity_physics import EntityPhysics
 from graphics.renderer import Renderer
 from graphics.camera import Camera
 from utils.vector2f import Vector2f
@@ -22,7 +23,8 @@ class EntityManager:
         start = time.perf_counter()
 
         self._rebuild_spatial_grid()
-        self.check_triggers_tick()
+        # NAKAKALAG TO
+        #self.check_triggers_tick()
 
         for entity in self.entities:
             entity.tick(dt)
@@ -69,10 +71,14 @@ class EntityManager:
             self.spatial_grid.insert(entity)
 
 
+    """
     def check_triggers_tick(self):
         checked_pairs = set()
 
         for entity_a in self.entities:
+            if type(entity_a).__name__ != "Player":
+                continue
+
             phys_a = entity_a.physics
             nearby = self.spatial_grid.get_nearby_entities(entity_a)
 
@@ -90,12 +96,13 @@ class EntityManager:
 
                 for box_a in phys_a.hitboxes:
                     for box_b in phys_b.hitboxes:
-                        if self._hitboxes_overlapping(box_a, phys_a, box_b, phys_b):
+                        if self.hitboxes_overlapping(box_a, phys_a, box_b, phys_b):
                             box_a.on_collide(box_b, entity_a, entity_b)
                             box_b.on_collide(box_a, entity_b, entity_a)
+    """
 
-
-    def _hitboxes_overlapping(self, box_a, phys_a, box_b, phys_b) -> bool:
+    @staticmethod
+    def hitboxes_overlapping(box_a: Hitbox, phys_a: EntityPhysics, box_b: Hitbox, phys_b: EntityPhysics) -> bool:
         pos_a = box_a.get_absolute_position(phys_a.position, phys_a.width, phys_a.height)
         pos_b = box_b.get_absolute_position(phys_b.position, phys_b.width, phys_b.height)
 

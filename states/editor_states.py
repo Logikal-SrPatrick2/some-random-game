@@ -5,7 +5,8 @@ from graphics.camera import Camera
 from utils.vector2f import Vector2f
 from tiles.tile_manager import TileManager, TILE_FACTORY
 from tiles.base_tile import DEFAULT_TILE_SIZE
-from tiles.tile_types import Floor
+from tiles.tile_types import FloorPlain
+from tiles import TILE_IMAGE_ASSETS
 from world.level_io import LevelIO
 from ui.palette_panel import PalettePanel
 from ui.button import Button
@@ -32,7 +33,7 @@ class EditorState(State):
         self.tile_manager.load_map(default_map)
         
         # UI Sidebar Panel Configuration
-        self.palette = PalettePanel(screen_width - 200, 0, 200, screen_height)
+        self.palette = PalettePanel(screen_width - 400, 0, 400, screen_height)
         
         self.save_btn = Button(10, 10, 140, 35, "Save JSON", on_click=self.trigger_save)
         self.load_btn = Button(160, 10, 140, 35, "Load JSON", on_click=self.trigger_load)
@@ -41,7 +42,6 @@ class EditorState(State):
         self.cam_speed = 500.0  # Pixels per second free-roaming speed
 
     def select_player_brush(self):
-        """Quick shortcut trigger to switch palette context directly to the Player entity brush."""
         self.palette.active_brush_type = "ENTITY"
         self.palette.active_id = "Player"
         print("[EDITOR] Active brush set to: Player")
@@ -83,12 +83,11 @@ class EditorState(State):
                         self.execute_tile_paint(grid_x, grid_y, 0)
 
     def execute_tile_paint(self, grid_x, grid_y, tile_id):
-        """Paints a new tile instance safely initializing its underlying structural graphic asset properties."""
-        tile_class = TILE_FACTORY.get(tile_id, Floor)
+        tile_class = TILE_FACTORY.get(tile_id, FloorPlain)
         new_tile = tile_class(grid_x, grid_y)
         
-        if 0 <= new_tile.startIndex < len(self.tile_manager.master_spritesheet):
-            new_tile.graphics_asset = self.tile_manager.master_spritesheet[new_tile.startIndex]
+        if 0 <= new_tile.id < len(TILE_IMAGE_ASSETS):
+            new_tile.graphics_asset = TILE_IMAGE_ASSETS[new_tile.id]
             
         self.tile_manager.tilemap[grid_y][grid_x] = new_tile
 

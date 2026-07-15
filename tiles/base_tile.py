@@ -4,14 +4,12 @@ DEFAULT_TILE_SIZE = 128
 
 class Tile:
     def __init__(self, tile_id: int, grid_x: int, grid_y: int, is_solid: bool = False,
-                 is_animated: bool = False, startIndex: int = 0, stopIndex: int = None):
+                 is_animated: bool = False):
         self.id = tile_id
         self.grid_x = grid_x
         self.grid_y = grid_y
         self.is_solid = is_solid
         self.is_animated = is_animated
-        self.startIndex = startIndex
-        self.stopIndex = stopIndex
         
         # TOP LEFT World Space Coordinates
         self.world_x = grid_x * DEFAULT_TILE_SIZE

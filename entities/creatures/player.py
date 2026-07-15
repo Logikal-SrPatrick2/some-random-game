@@ -49,15 +49,17 @@ class Player(Creature):
             True
         )
 
+        self.attack_range_hitbox = Hitbox(
+            "ATTACK RANGE",
+            HitboxType.CIRCLE,
+            64,
+            128,
+            DEFAULT_ATTACK_RADIUS,
+            on_collide_callback=self.range_hitbox_on_collide
+        )
+
         self.physics.add_hitbox(
-            Hitbox(
-                "ATTACK RANGE",
-                HitboxType.CIRCLE,
-                64,
-                128,
-                DEFAULT_ATTACK_RADIUS,
-                on_collide_callback=self.range_hitbox_on_collide
-            )
+            self.attack_range_hitbox
         )
 
         self.creatures_within_attack_range = set()
@@ -168,6 +170,8 @@ class Player(Creature):
                 elif self.physics.velocity.x < 0:
                     self.animation = self.walk_left 
 
+        self.check_collisions_tick()
+
     def audio(self, mixer: Mixer):
         super().audio(mixer)
 
@@ -177,6 +181,18 @@ class Player(Creature):
 
     def render(self, graphics, camera):
         super().render(graphics, camera)
+
+    def check_collisions_tick(self):
+        spatial_grid = self.manager.spatial_grid
+
+        nearby_entities = spatial_grid.get_nearby_entities(self)
+        for entity in nearby_entities:
+            if not isinstance(entity, Creature):
+                continue
+            phy: EntityPhysics = entity.physics
+            main_hitbox: Hitbox = phy.main_hitbox
+            if EntityManager.hitboxes_overlapping(self.attack_range_hitbox, self.physics, main_hitbox, phy):
+                self.attack_range_hitbox.on_collide(main_hitbox, self, entity)
 
     def range_hitbox_on_collide(self, _, player, entity_in_range):
         self.creatures_within_attack_range_temp.add(entity_in_range)

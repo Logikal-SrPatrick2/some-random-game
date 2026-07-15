@@ -1,6 +1,6 @@
 import json
 import os
-from tiles.tile_manager import TILE_FACTORY, Floor
+from tiles.tile_manager import TILE_FACTORY, FloorPlain
 from tiles.base_tile import DEFAULT_TILE_SIZE
 from entities.utils.entity_factory import entity_factory
 from utils.conversion_to_exe import get_save_path, resource_path

@@ -36,6 +36,7 @@ class GamePanel:
         self.last_tick_ms = []
         self.last_audio_ms = []
         self.last_render_ms = []
+        self.last_total_ms = []
 
         self.iter_count = 60
 
@@ -96,7 +97,12 @@ class GamePanel:
                 self.last_render_ms.pop(0)
             self.last_render_ms.append(render_ms)
 
-            #self._render_metrics(input_ms, tick_ms, audio_ms, render_ms)
+            total_ms = input_ms + tick_ms + audio_ms + render_ms
+            if len(self.last_total_ms) >= self.iter_count:
+                self.last_total_ms.pop(0)
+            self.last_total_ms.append(total_ms)
+
+            #self._render_metrics(input_ms, tick_ms, audio_ms, render_ms, total_ms)
 
             pygame.display.flip()
             # RENDER END
@@ -105,7 +111,7 @@ class GamePanel:
         pygame.display.quit()
         terminate_system()
 
-    def _render_metrics(self, input_ms, tick_ms, audio_ms, render_ms):
+    def _render_metrics(self, input_ms, tick_ms, audio_ms, render_ms, total_ms):
         metrics_panel_width = 1280
         metrics_panel_height = 144
 
@@ -114,6 +120,7 @@ class GamePanel:
         self.renderer.draw_text(f"TICK: {tick_ms:.2f} ms", (255, 255, 255), 5, 625)
         self.renderer.draw_text(f"AUDIO: {audio_ms:.2f} ms", (255, 255, 255), 5, 645)
         self.renderer.draw_text(f"RENDER: {render_ms:.2f} ms", (255, 255, 255), 5, 665)
+        self.renderer.draw_text(f"TOTAL: {total_ms:.2f} ms", (255, 255, 255), 5, 685)
 
         self.renderer.draw_text(f"{self.iter_count}-IT-INPUT: {(sum(self.last_input_ms)/self.iter_count):.2f} ms", 
                                 (255, 255, 255), 105, 605)
@@ -123,6 +130,8 @@ class GamePanel:
                                 (255, 255, 255), 105, 645)
         self.renderer.draw_text(f"{self.iter_count}-IT-RENDER: {(sum(self.last_render_ms)/self.iter_count):.2f} ms", 
                                 (255, 255, 255), 105, 665)
+        self.renderer.draw_text(f"{self.iter_count}-IT-TOTAL: {(sum(self.last_total_ms)/self.iter_count):.2f} ms", 
+                                (255, 255, 255), 105, 685)
         
         top_state = self.state_manager.stack[-1]
 

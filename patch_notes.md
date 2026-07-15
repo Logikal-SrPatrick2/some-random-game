@@ -30,3 +30,8 @@
 
 ### PRE-ALPHA v0.3.2
 - Created entity submodules for reorganization (no new features for user)
+
+### PRE-ALPHA v0.4.0
+- World redesigns by Meakay
+- Optimized entities
+- Improved editor menu

@@ -9,7 +9,7 @@ class Spritesheet:
         with open(json_path, 'r', encoding="utf-8") as f:
             self.data = json.load(f)
 
-    def get_frames(self):
+    def get_frames(self) -> list[ImageAsset]:
         frames_list = []
         
         for frame_name, frame_info in self.data["frames"].items():
