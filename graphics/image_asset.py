@@ -34,3 +34,16 @@ class ImageAsset:
             render_y = y
 
         graphics.draw_surface(self.surface, render_x, render_y)
+
+    @property
+    def calculate_auto_pivot(self) -> int:
+        mask = pygame.mask.from_surface(self.surface)
+        
+        filled_pixels = mask.outline()
+        
+        if not filled_pixels:
+            return self.surface.get_height() 
+            
+        lowest_y = max(p[1] for p in filled_pixels)
+        
+        return lowest_y

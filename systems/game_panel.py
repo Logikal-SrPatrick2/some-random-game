@@ -40,6 +40,8 @@ class GamePanel:
 
         self.iter_count = 60
 
+        self.show_metrics = False
+
     def start(self):
         print("[PANEL] GamePanel activated with Graphics Pipeline.")
         self.running = True
@@ -60,6 +62,10 @@ class GamePanel:
             input_start = time.perf_counter()
             self.input_handler.update_snapshot()
             self.state_manager.player_input(self.input_handler)
+
+            if self.input_handler.tab_tapped:
+                self.show_metrics = not self.show_metrics
+
             input_ms = (time.perf_counter() - input_start) * 1000.0
             if len(self.last_input_ms) >= self.iter_count:
                 self.last_input_ms.pop(0)
@@ -102,7 +108,8 @@ class GamePanel:
                 self.last_total_ms.pop(0)
             self.last_total_ms.append(total_ms)
 
-            #self._render_metrics(input_ms, tick_ms, audio_ms, render_ms, total_ms)
+            if self.show_metrics:
+                self._render_metrics(input_ms, tick_ms, audio_ms, render_ms, total_ms)
 
             pygame.display.flip()
             # RENDER END

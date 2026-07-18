@@ -4,6 +4,8 @@ from entities.mechanics.hitbox import Hitbox, HitboxType
 from entities.utils.entity_manager import EntityManager
 from graphics.animation import Animation
 from graphics.spritesheet import Spritesheet
+from graphics.camera import Camera
+from graphics.renderer import Renderer
 from systems.input_handler import InputHandler
 from tiles.tile_manager import TileManager
 from utils.vector2f import Vector2f
@@ -14,7 +16,7 @@ from utils.conversion_to_exe import resource_path
 import pygame
 
 DEFAULT_HEALTH = 100
-DEFAULT_ATTACK_COOLDOWN = 500 #ms
+DEFAULT_ATTACK_COOLDOWN = 1000 #ms
 DEFAULT_DMG = 20
 DEFAULT_WALK_VELOCITY = 300
 DEFAULT_SPRITE_RESIZE = 128 # 32 times 4
@@ -41,9 +43,9 @@ class Player(Creature):
                 "PLAYER HITBOX",
                 HitboxType.RECTANGLE,
                 48,
-                48,
+                96,
                 32,
-                80,
+                32,
                 True
             ),
             True
@@ -101,30 +103,30 @@ class Player(Creature):
 
         if inputs.keys[pygame.K_SPACE]:
             self.attack(self.closest_creature)
-            self.physics.velocity.x = 0.0
-            self.physics.velocity.y = 0.0
+            self.physics.velocity.set_zero()
             self.is_shooting = True
         else:
             self.is_shooting = False
-            if inputs.keys[pygame.K_d] and inputs.keys[pygame.K_a]:
-                self.physics.velocity.x = 0.0
-            else:
-                if inputs.keys[pygame.K_d]:
-                    self.physics.velocity.x = self.max_speed
-                elif inputs.keys[pygame.K_a]:
-                    self.physics.velocity.x = -self.max_speed
-                else:
-                    self.physics.velocity.x = 0.0
 
-            if inputs.keys[pygame.K_s] and inputs.keys[pygame.K_w]:
-                self.physics.velocity.y = 0.0
+            move_x = 0.0
+            if inputs.keys[pygame.K_d] and not inputs.keys[pygame.K_a]:
+                move_x = 1.0
+            elif inputs.keys[pygame.K_a] and not inputs.keys[pygame.K_d]:
+                move_x = -1.0
+
+            move_y = 0.0
+            if inputs.keys[pygame.K_s] and not inputs.keys[pygame.K_w]:
+                move_y = 1.0
+            elif inputs.keys[pygame.K_w] and not inputs.keys[pygame.K_s]:
+                move_y = -1.0
+
+            if move_x != 0.0 and move_y != 0.0:
+                DIAGONAL_FACTOR = 0.70710678
+                self.physics.velocity.x = move_x * self.max_speed * DIAGONAL_FACTOR
+                self.physics.velocity.y = move_y * self.max_speed * DIAGONAL_FACTOR
             else:
-                if inputs.keys[pygame.K_s]:
-                    self.physics.velocity.y = self.max_speed
-                elif inputs.keys[pygame.K_w]:
-                    self.physics.velocity.y = -self.max_speed
-                else:
-                    self.physics.velocity.y = 0.0
+                self.physics.velocity.x = move_x * self.max_speed
+                self.physics.velocity.y = move_y * self.max_speed
 
     def tick(self, dt):
         super().tick(dt) 
@@ -143,10 +145,10 @@ class Player(Creature):
                 if self.closest_creature:
                     self.closest_creature.physics.main_hitbox.show_hitbox = False
                 self.closest_creature = new_closest_creature
-                self.closest_creature.physics.main_hitbox.show_hitbox = True
+                #self.closest_creature.physics.main_hitbox.show_hitbox = True
         else:
             if self.closest_creature:
-                self.closest_creature.physics.main_hitbox.show_hitbox = False
+                #self.closest_creature.physics.main_hitbox.show_hitbox = False
                 self.closest_creature = None
 
         if self.is_shooting:
@@ -179,8 +181,21 @@ class Player(Creature):
             mixer.play_sfx("plasma_bullet")
             self.play_shooting_sound = False
 
-    def render(self, graphics, camera):
+    def render(self, graphics: Renderer, camera: Camera):
         super().render(graphics, camera)
+
+        # target indicate
+        if self.closest_creature:
+            phy: EntityPhysics = self.closest_creature.physics
+            screen_pos = camera.to_screen_coords(phy.position)
+
+            graphics.draw_rect_hollow(
+                int(round(screen_pos.x) - (phy.width/2)),
+                int(round(screen_pos.y) - (phy.height/2)),
+                phy.width,
+                phy.height,
+                (255, 0, 0)
+            )
 
     def check_collisions_tick(self):
         spatial_grid = self.manager.spatial_grid

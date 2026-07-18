@@ -1,3 +1,4 @@
+from __future__ import annotations
 import math
 
 class Vector2f:
@@ -5,8 +6,14 @@ class Vector2f:
         self.x = float(x)
         self.y = float(y)
 
-    def __add__(self, other: 'Vector2f') -> 'Vector2f':
-        return Vector2f(self.x + other.x, self.y + other.y)
+    def __add__(self, other: Vector2f | tuple) -> 'Vector2f':
+        if isinstance(other, Vector2f):
+            return Vector2f(self.x + other.x, self.y + other.y)
+        
+        elif isinstance(other, tuple):
+            return Vector2f(self.x + other[0], self.y + other[1])
+        
+        return NotImplemented
 
     def __sub__(self, other: 'Vector2f') -> 'Vector2f':
         return Vector2f(self.x - other.x, self.y - other.y)
@@ -33,6 +40,10 @@ class Vector2f:
         if mag == 0:
             return Vector2f(0.0, 0.0)
         return self / mag
+    
+    def set_zero(self):
+        self.x = 0.0
+        self.y = 0.0
 
     @classmethod
     def zero(cls) -> 'Vector2f':
@@ -41,6 +52,15 @@ class Vector2f:
     @classmethod
     def distance(cls, vec1: 'Vector2f', vec2: 'Vector2f') -> float:
         return (vec2 - vec1).length()
+    
+    @classmethod
+    def angle_between_points(cls, start: 'Vector2f', end: 'Vector2f') -> float:
+        diff = end - start
+        
+        # Y IS INVERSE IN PYGAME
+        rad = math.atan2(-diff.y, diff.x)
+        
+        return math.degrees(rad) % 360
     
     @property
     def is_zero(self) -> bool:

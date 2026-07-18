@@ -25,6 +25,12 @@ class EntityPhysics:
                 max_w = max(max_w, (abs(box.offset.x) + box.w_or_r) * 2)
                 max_h = max(max_h, (abs(box.offset.y) + box.w_or_r) * 2)
         return max_w, max_h
+    
+    def get_hitbox_center(self) -> Vector2f:
+        if not self.main_hitbox:
+            return self.position
+        tl = self.main_hitbox.get_absolute_position(self.position, self.width, self.height)
+        return tl + (self.main_hitbox.w_or_r / 2.0, self.main_hitbox.height / 2.0)
 
     def add_hitbox(self, hitbox: Hitbox, is_main: bool = False):
         self.hitboxes.append(hitbox)
@@ -71,12 +77,15 @@ class EntityPhysics:
             if tile_blocked:
                 break
 
+            """
             collided_x, obstacle_phys = self._check_manager_collisions(potential_pos, entity_manager)
             if not collided_x:
                 self.position.x = potential_pos.x
             else:
                 self._snap_to_obstacle_x(step_dx, obstacle_phys)
                 break
+            """
+            self.position.x = potential_pos.x
 
         for _ in range(steps_y):
             if step_dy == 0:
@@ -88,12 +97,15 @@ class EntityPhysics:
             if tile_blocked:
                 break
 
+            """
             collided_y, obstacle_phys = self._check_manager_collisions(potential_pos, entity_manager)
             if not collided_y:
-                self.position.y = potential_pos.y
+                
             else:
                 self._snap_to_obstacle_y(step_dy, obstacle_phys)
                 break
+            """
+            self.position.y = potential_pos.y
 
     def _check_manager_collisions(self, prospective_pos: Vector2f, entity_manager):
         if not entity_manager or not self.main_hitbox:

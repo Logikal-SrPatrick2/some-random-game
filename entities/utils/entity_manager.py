@@ -34,6 +34,9 @@ class EntityManager:
             self.last_tick_ms.pop(0)
         self.last_tick_ms.append(tick_ms)
 
+        # always at the end
+        self.entities.sort(key=lambda e: (e.LAYER_PRIORITY, e.depth_y))
+
     def audio(self, mixer):
         for entity in self.entities:
             entity.audio(mixer)

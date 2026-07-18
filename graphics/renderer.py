@@ -1,8 +1,13 @@
 import pygame
+import math
 from utils.conversion_to_exe import resource_path
 
 class Renderer:
     orbitron = None
+
+    sector_surfs = []
+    sector_surf_radius = 256
+
     def __init__(self):
         self.window_surface = None
         self.default_font = None
@@ -16,9 +21,70 @@ class Renderer:
         self.orbitron = pygame.font.Font(resource_path("res/fonts/Orbitron.ttf"), 25)
         Renderer.orbitron = self.orbitron
 
+        self.init_sector_surfs()
+
+    def init_sector_surfs(self):
+        fill = (255, 0, 0, 100)
+        outline = (255, 0, 0, 255)
+
+        step = 2
+        OUTLINE_WIDTH = 2
+        sector_angle = 90
+        half = sector_angle//2
+
+        for angle in range(0, 360):
+            d = Renderer.sector_surf_radius*2
+            # Create the temporary full-sized surface
+            temp_surf = pygame.Surface((d, d), pygame.SRCALPHA).convert_alpha()
+
+            r = Renderer.sector_surf_radius
+            local_center = (r, r)
+            points = [local_center]
+
+            start_angle = angle - half
+            end_angle = angle + half
+
+            start_normalized = start_angle % 360
+            end_normalized = end_angle % 360
+
+            actual_end = end_normalized
+            if actual_end <= start_normalized:
+                actual_end += 360
+
+            for deg in range(int(start_normalized), int(actual_end) + 1, step):
+                rad = math.radians(deg)
+                px = r + r * math.cos(rad)
+                py = r - r * math.sin(rad)
+                points.append((px, py))
+
+            if len(points) > 2:
+                pygame.draw.polygon(temp_surf, fill, points)
+                pygame.draw.polygon(temp_surf, outline, points, OUTLINE_WIDTH)
+
+            rect = temp_surf.get_bounding_rect()
+            
+            cropped_surf = temp_surf.subsurface(rect)
+            
+            final_surf = cropped_surf.copy()
+
+            offset_x = rect.x - r
+            offset_y = rect.y - r
+
+            Renderer.sector_surfs.append((final_surf, offset_x, offset_y))
+
     def clear(self, color=(0, 0, 0)):
         if self.window_surface:
             self.window_surface.fill(color)
+
+    def draw_sector_standard(self, x: int, y: int, angle_facing: int):
+        angle_facing = angle_facing % 360
+        if self.window_surface:
+            surf, offset_x, offset_y = Renderer.sector_surfs[angle_facing]
+            
+            top_left_x = x + offset_x
+            top_left_y = y + offset_y
+            
+            self.window_surface.blit(surf, (top_left_x, top_left_y))
 
     def draw_text(self, text: str, color: tuple, x: int, y: int, larger_font: bool = False, customFont: pygame.font.Font = None, debug: bool = False):
         if not customFont:

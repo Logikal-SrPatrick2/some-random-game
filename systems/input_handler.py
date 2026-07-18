@@ -16,9 +16,14 @@ class InputHandler:
         self.prev_t = False
         self.t = False
 
+        self.tab_tapped = False
+        self.prev_tab = False
+        self.tab = False
+
     def update_snapshot(self):
         self.prev_escape = self.escape
         self.prev_t = self.t
+        self.prev_tab = self.tab
 
         self.keys = pygame.key.get_pressed()
 
@@ -27,6 +32,9 @@ class InputHandler:
 
         self.t = self.keys[pygame.K_t]
         self.t_tapped = self.t and not self.prev_t
+
+        self.tab = self.keys[pygame.K_TAB]
+        self.tab_tapped = self.tab and not self.prev_tab
 
         self.mouse_pos = pygame.mouse.get_pos()
         

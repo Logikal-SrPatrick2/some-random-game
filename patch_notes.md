@@ -35,3 +35,12 @@
 - World redesigns by Meakay
 - Optimized entities
 - Improved editor menu
+
+### PRE-ALPHA v0.5.0
+- Alien redesign by Meakay
+- Roaming Aliens can now attack
+- Player can now lose health and get unalived
+- Fixed Velocity Calculations (Player used to get extra speed due to diagonal bug)
+- Fixed A* implementation for the alien's pathfinding algorithm
+- Added Liang-Barsky algorithm for the sector-shaped spew attacks
+- Made performance metrics available in the actual game (toggle with TAB)
